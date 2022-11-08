@@ -1,0 +1,13 @@
+data_type	INT16
+dim1		56
+dim2		72
+dim3		38
+dim4		512
+datatype	4
+pixdim1		0.500000
+pixdim2		0.500000
+pixdim3		0.500000
+pixdim4		2.000000
+cal_max		0.000000
+cal_min		0.000000
+file_type	NIFTI-1+
