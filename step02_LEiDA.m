@@ -47,7 +47,8 @@ for s=1:N_sub
         eig1=squeeze(Leading_Eig(s,t,:));
         for t2=1:Tmax
             eig2=squeeze(Leading_Eig(s,t2,:));
-            FCD_eig(s,t,t2)=dot(eig1,eig2)/norm(eig1)/norm(eig2);
+            FCD_eig(s,t,t2)=dot(eig1,eig2)/(norm(eig1)*norm(eig2));
+            %FCD_eig(s,t,t2)=corr(eig1,eig2);
         end
     end
 end
@@ -58,6 +59,11 @@ xlim([0,502])
 
 save('LEiDA_data','Leading_Eig','FCD_eig','Var_Eig')
 
+iFD_temp = squeeze(FCD_eig(8,:,:));
+imagesc(iFD_temp)
+colormap(hot)
+axis square
+caxis([-1 1])
 %%
 % Generate vector X concatenating all eigenvectors from all subjects and
 % time points, where rows are observations and collumns are variables.
@@ -78,7 +84,7 @@ maxk=10;
 opt= statset('UseParallel',0); %,'UseSubstreams',1);
 % The options may vary according to the Matlab version
 Kmeans_results=cell(1,maxk);
-rng(35)
+rng(35) % for reproducibility
 for k=2:maxk  
     disp(['Calculating for ' num2str(k) 'clusters'])
     [IDX, C, SUMD, D]=kmeans(X,k,'Distance','cityblock','Replicates',20,'Display','final','Options',opt); %,'Options',opt);  
